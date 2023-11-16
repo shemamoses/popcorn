@@ -1,14 +1,26 @@
-import { Spacer, InputGroup, Input, InputLeftElement } from "@chakra-ui/react";
+import { InputGroup, Input, InputLeftElement } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 
-const SearchInput = () => {
+const SearchInput = ({ onSearchValueChange }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    onSearchValueChange(searchValue);
+  }, [searchValue, onSearchValueChange]);
+
   return (
     <>
-      <Spacer />
       <form>
         <InputGroup size="lg">
           <InputLeftElement children={<BsSearch />} />
-          <Input type="text" placeholder="Search Movies..." variant="filled" />
+          <Input
+            type="text"
+            value={searchValue}
+            placeholder="Search Movies..."
+            variant="filled"
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
         </InputGroup>
       </form>
     </>

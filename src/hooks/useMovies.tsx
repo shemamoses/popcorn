@@ -24,7 +24,7 @@ interface MoviesHookResult {
   loading: boolean;
 }
 
-const useMovies = (): MoviesHookResult => {
+const useMovies = (searchValue?: string): MoviesHookResult => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +34,10 @@ const useMovies = (): MoviesHookResult => {
     const signal = controller.signal;
 
     apiClient
-      .get<FetchResponse>("/", { signal })
+      .get<FetchResponse>("/", {
+        params: { s: searchValue || "Matrix" },
+        signal,
+      })
       .then((response) => {
         setMovies(response.data.Search);
         setLoading(false); // Set loading to false when data is loaded
@@ -47,7 +50,7 @@ const useMovies = (): MoviesHookResult => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [searchValue]); // Include searchValue in the dependency array
 
   if (loading) {
     return { movies: [], error: null, loading: true };

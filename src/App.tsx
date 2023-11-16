@@ -6,12 +6,12 @@ import MovieGrid from "./components/MovieGrid";
 function App() {
   return (
     <>
-      <Grid m={4}>
+      <Grid m={8}>
         <GridItem>
           <NavBar />
         </GridItem>
         <GridItem>
-          <HStack m={4}>
+          <HStack m={8}>
             <MovieListGrid />
             <MovieGrid />
           </HStack>
